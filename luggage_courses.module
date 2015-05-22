@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the luggage_courses feature.
+ */
+
+include_once 'luggage_courses.features.inc';
