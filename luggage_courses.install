@@ -10,6 +10,8 @@
  * Creates existing course locations.
  */
 function luggage_courses_install() {
+  global $user;
+
   // First revert the feature to install the content type and fields.
   features_revert_module('luggage_courses');
 
@@ -26,35 +28,42 @@ function luggage_courses_install() {
 
   // Create location nodes.
   foreach ($locations as $location) {
-    $node = new stdClass();
-    $node->title = $location->title;
-    $node->type = 'course_location';
-    node_object_prepare($node);
-    $node->language = LANGUAGE_NONE;
-    $node->uid = 1;
-    $node->status = 1;
-    $node->promote = 0;
-    $node->comment = 0;
-    $node->body[LANGUAGE_NONE][0]['value'] = $location->amenities;
-    $node = node_submit($node);
+    // First, create node.
+    $values = array(
+      'type' => 'course_location',
+      'uid' => $user->uid,
+      'status' => 1,
+      'promote' => 0,
+    );
+    $entity = entity_create('node', $values);
+    $ewrapper = entity_metadata_wrapper('node', $entity);
+
+    // Then, set values.
+    $ewrapper->title->set($location->title);
+    $ewrapper->body->set(array(
+      'value' => trim($location->amenities),
+      'format' => 'plain_text',
+    ));
 
     // Fetch and attach images.
-    $delta = 0;
+    $image_files = array();
     foreach ($location->images as $image_url) {
       // Extract file name from the URL.
       $matches = NULL;
       preg_match('/\/([0-9].*$)/', $image_url, $matches);
       $filename = $matches[1];
 
-      // Fetch and save the image.
+      // Fetch the image.
       $image = file_get_contents($image_url);
-      $file = file_save_data($image, $location_images_path . $filename, FILE_EXISTS_REPLACE);
-      $node->field_course_location_images[LANGUAGE_NONE][$delta] = (array)$file;
-      $delta++;
+      $image_file = file_save_data($image, $location_images_path . $filename, FILE_EXISTS_REPLACE);
+      $image_files[] = (array)$image_file;
+    }
+    // Add images to node.
+    if (count($image_files)) {
+      $ewrapper->field_course_location_images->set($image_files);
     }
 
-    // Save the location node.
-    node_save($node);
+    $ewrapper->save();
   }
 }
 
