@@ -1,0 +1,167 @@
+<?php
+/**
+ * @file 
+ * Installation hooks for luggage_courses module.
+ */
+
+/**
+ * Implements hook_install().
+ *
+ * Creates existing course locations.
+ */
+function luggage_courses_install() {
+  // First revert the feature to install the content type and fields.
+  features_revert_module('luggage_courses');
+
+  // Create the directory where images will be stored.
+  $location_images_path = 'public://courses/locations/';
+  file_prepare_directory($location_images_path, FILE_CREATE_DIRECTORY);
+
+  // Fetch location data from the website.
+  $locations = _luggage_courses_fetch_location_data();
+  if ($locations == FALSE) {
+    watchdog('luggage_courses', t('Could not create location nodes.', array(), WATCHDOG_WARNING));
+    return;
+  }
+
+  // Create location nodes.
+  foreach ($locations as $location) {
+    $node = new stdClass();
+    $node->title = $location->title;
+    $node->type = 'course_location';
+    node_object_prepare($node);
+    $node->language = LANGUAGE_NONE;
+    $node->uid = 1;
+    $node->status = 1;
+    $node->promote = 0;
+    $node->comment = 0;
+    $node->body[LANGUAGE_NONE][0]['value'] = $location->amenities;
+    $node = node_submit($node);
+
+    // Fetch and attach images.
+    $delta = 0;
+    foreach ($location->images as $image_url) {
+      // Extract file name from the URL.
+      $matches = NULL;
+      preg_match('/\/([0-9].*$)/', $image_url, $matches);
+      $filename = $matches[1];
+
+      // Fetch and save the image.
+      $image = file_get_contents($image_url);
+      $file = file_save_data($image, $location_images_path . $filename, FILE_EXISTS_REPLACE);
+      $node->field_course_location_images[LANGUAGE_NONE][$delta] = (array)$file;
+      $delta++;
+    }
+
+    // Save the location node.
+    node_save($node);
+  }
+}
+
+/**
+ * Implements hook_uninstall()
+ *
+ * Removes modules's content types.
+ */
+function luggage_courses_uninstall() {
+  $content_types = array('course', 'course_instructor', 'course_location');
+
+  foreach ($content_types as $content_type) {
+    // Make content type's fields deletable.
+    db_query("UPDATE {node_type} SET custom = 1, locked = 0 WHERE type = :ctype", array(':ctype' => $content_type));
+    drupal_flush_all_caches();
+    node_type_delete($content_type);
+  }
+}
+
+/**
+ * Fetches course locations for Chemistry.
+ *
+ * @return array|FALSE
+ *   array of objects containing location info or FALSE if there was an error.
+ */
+function _luggage_courses_fetch_location_data() {
+  // Disable errors and warnings due to broken HTML.
+  libxml_use_internal_errors(true);
+
+  $locations = array();
+
+  // Load class list page.
+  $locations_list_html = file_get_contents('http://www.fpm.iastate.edu/roomscheduling/classrooms.asp?building=GILMAN+');
+  if ($locations_list_html === FALSE) {
+    return FALSE;
+  }
+
+  // Convert it to a DOM object.
+  $dom = new DomDocument;
+  if (!$dom->loadHTML($locations_list_html)) {
+    return FALSE;
+  }
+
+  // Extract all location URLs.
+  $location_urls = array();
+  $elements = $dom->getElementsByTagName('a');
+  if (!is_null($elements)) {
+    foreach ($elements as $element) {
+      $url = $element->getAttribute('href');
+      if (strpos($url, 'room.asp') !== FALSE) {
+        $location_urls[] = $url;
+      }
+    }
+  }
+
+  // Loop through each location and extract its data.
+  foreach ($location_urls as $location_url) {
+    $location = new stdClass;
+
+    // Extract location id from URL.
+    $matches = NULL;
+    preg_match('/[0-9]+$/', $location_url, $matches);
+    $location_id = $matches[0];
+
+    // Load location HTML;
+    $location_html = file_get_contents('http://www.fpm.iastate.edu/roomscheduling/' . $location_url);
+    if ($location_html === FALSE) {
+      watchdog('luggage_courses', t('location with URL @url could not be loaded.', array('@url' => $location_html)), WATCHDOG_WARNING);
+      continue;
+    }
+    $dom = new DomDocument;
+    if (!$dom->loadHTML($location_html)) {
+      watchdog('luggage_courses', t('location with URL @url could not be converted into a DOM element.', array('@url' => $location_html)), WATCHDOG_WARNING);
+      continue;
+    }
+
+    // Extract location name.
+    $location->title = $dom->getElementsByTagName('h2')->item(0)->nodeValue;
+
+    // Extract amenities in a dirty and hacky way :-S
+    foreach ($dom->getElementsByTagName('div') as $element) {
+      if (strpos($element->nodeValue, 'Maximum Capacity') !== FALSE) {
+        $location->amenities = $element->nodeValue;
+      }
+    }
+
+    // Extract images in a dirty and hacky way :-S
+    $location->images = array();
+    foreach ($dom->getElementsByTagName('img') as $element) {
+      if (strpos($element->getAttribute('src'), 'classrooms') !== FALSE) {
+        $location->images[] = 'http://www.fpm.iastate.edu/roomscheduling/' . $element->getAttribute('src');
+      }
+    }
+
+    // Some locations have seating images whose URLs are dynamic. Attempt to fetch them.
+    foreach ($dom->getElementsByTagName('input') as $element) {
+      if (strpos($element->getAttribute('onclick'), 'showSeating') !== FALSE) {
+        $matches = NULL;
+        if (preg_match('/\'([a-z]{1})\'/', $element->getAttribute('onclick'), $matches) === 1) {
+          $photo_letter = $matches[1];
+          $location->images[] = 'http://www.fpm.iastate.edu/roomscheduling/seating/' . $location_id .  $photo_letter . '.jpg';
+        }
+      }
+    }
+
+    $locations[] = $location;
+  }
+
+  return $locations;
+}
