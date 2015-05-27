@@ -360,6 +360,49 @@ function luggage_courses_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-course-field_course_related'
+  $field_instances['node-course-field_course_related'] = array(
+    'bundle' => 'course',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 7,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_course_related',
+    'label' => 'Related courses',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'entityreference',
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'path' => '',
+        'size' => 60,
+      ),
+      'type' => 'entityreference_autocomplete',
+      'weight' => 48,
+    ),
+  );
+
   // Exported field_instance: 'node-course-field_course_semester'
   $field_instances['node-course-field_course_semester'] = array(
     'bundle' => 'course',
@@ -823,6 +866,7 @@ function luggage_courses_field_default_field_instances() {
   t('Instructor');
   t('Location');
   t('Program');
+  t('Related courses');
   t('Semester');
   t('Syllabus');
   t('The identifier consists of a departmental abbreviation and an number. E.g., CHEM 163.');

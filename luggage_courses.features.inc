@@ -8,6 +8,9 @@
  * Implements hook_ctools_plugin_api().
  */
 function luggage_courses_ctools_plugin_api($module = NULL, $api = NULL) {
+  if ($module == "cer" && $api == "default_cer_presets") {
+    return array("version" => "1");
+  }
   if ($module == "multifield" && $api == "multifield") {
     return array("version" => "1");
   }
