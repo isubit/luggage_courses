@@ -360,6 +360,53 @@ function luggage_courses_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-course-field_course_relation'
+  $field_instances['node-course-field_course_relation'] = array(
+    'bundle' => 'course',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'relation_add',
+        'settings' => array(),
+        'type' => 'relation_add_endpoints_and_fields',
+        'weight' => 7,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_course_relation',
+    'label' => 'Relation',
+    'required' => 0,
+    'settings' => array(
+      'relation_target_bundles' => array(),
+      'relation_type' => array(
+        'related' => 'related',
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'relation_add',
+      'settings' => array(
+        'relation_endpoint_bundle_display' => 0,
+        'relation_endpoint_custom_label' => '',
+        'relation_endpoint_iso_language_codes' => 0,
+        'relation_endpoint_label' => 'endpoint',
+        'relation_endpoint_label_delta' => 0,
+        'relation_endpoint_search_by_id' => 0,
+      ),
+      'type' => 'relation_add',
+      'weight' => 48,
+    ),
+  );
+
   // Exported field_instance: 'node-course-field_course_semester'
   $field_instances['node-course-field_course_semester'] = array(
     'bundle' => 'course',
@@ -823,6 +870,7 @@ function luggage_courses_field_default_field_instances() {
   t('Instructor');
   t('Location');
   t('Program');
+  t('Relation');
   t('Semester');
   t('Syllabus');
   t('The identifier consists of a departmental abbreviation and an number. E.g., CHEM 163.');

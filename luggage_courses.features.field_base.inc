@@ -236,6 +236,21 @@ function luggage_courses_field_default_field_bases() {
     'type' => 'list_text',
   );
 
+  // Exported field_base: 'field_course_relation'
+  $field_bases['field_course_relation'] = array(
+    'active' => 1,
+    'cardinality' => -1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_course_relation',
+    'indexes' => array(),
+    'locked' => 0,
+    'module' => 'relation_add',
+    'settings' => array(),
+    'translatable' => 0,
+    'type' => 'relation_add',
+  );
+
   // Exported field_base: 'field_course_section_time'
   $field_bases['field_course_section_time'] = array(
     'active' => 1,
