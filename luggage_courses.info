@@ -105,5 +105,4 @@ features[variable][] = node_submitted_course_location
 features[variable][] = node_submitted_course_section
 features[variable][] = pathauto_node_course_pattern
 features[views_view][] = course_sections
-features[views_view][] = related_courses
 features_exclude[dependencies][ds] = ds
