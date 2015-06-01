@@ -5,6 +5,55 @@
  */
 
 /**
+ * Implements hook_ds_field_settings_info().
+ */
+function luggage_courses_ds_field_settings_info() {
+  $export = array();
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'node|course|course';
+  $ds_fieldsetting->entity_type = 'node';
+  $ds_fieldsetting->bundle = 'course';
+  $ds_fieldsetting->view_mode = 'course';
+  $ds_fieldsetting->settings = array(
+    'course_sections' => array(
+      'weight' => '3',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'title' => array(
+      'weight' => '0',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+  );
+  $export['node|course|course'] = $ds_fieldsetting;
+
+  $ds_fieldsetting = new stdClass();
+  $ds_fieldsetting->api_version = 1;
+  $ds_fieldsetting->id = 'node|course|default';
+  $ds_fieldsetting->entity_type = 'node';
+  $ds_fieldsetting->bundle = 'course';
+  $ds_fieldsetting->view_mode = 'default';
+  $ds_fieldsetting->settings = array(
+    'course_sections' => array(
+      'weight' => '2',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+    'related_courses' => array(
+      'weight' => '4',
+      'label' => 'hidden',
+      'format' => 'default',
+    ),
+  );
+  $export['node|course|default'] = $ds_fieldsetting;
+
+  return $export;
+}
+
+/**
  * Implements hook_ds_custom_fields_info().
  */
 function luggage_courses_ds_custom_fields_info() {

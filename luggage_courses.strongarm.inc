@@ -323,5 +323,12 @@ function luggage_courses_strongarm() {
   $strongarm->value = 1;
   $export['node_submitted_course_section'] = $strongarm;
 
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_node_course_pattern';
+  $strongarm->value = 'courses/[node:field-course-year:custom:Y]/[node:field-course-semester]/[node:field-course-id]';
+  $export['pathauto_node_course_pattern'] = $strongarm;
+
   return $export;
 }
