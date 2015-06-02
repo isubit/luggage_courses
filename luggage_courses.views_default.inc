@@ -132,20 +132,49 @@ function luggage_courses_views_default_views() {
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'none';
-  $handler->display->display_options['style_plugin'] = 'default';
-  $handler->display->display_options['row_plugin'] = 'node';
+  $handler->display->display_options['style_plugin'] = 'table';
+  $handler->display->display_options['style_options']['columns'] = array(
+    'title' => 'title',
+  );
+  $handler->display->display_options['style_options']['default'] = '-1';
+  $handler->display->display_options['style_options']['info'] = array(
+    'title' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+  );
+  /* Field: Content: Identifer */
+  $handler->display->display_options['fields']['field_course_id']['id'] = 'field_course_id';
+  $handler->display->display_options['fields']['field_course_id']['table'] = 'field_data_field_course_id';
+  $handler->display->display_options['fields']['field_course_id']['field'] = 'field_course_id';
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  /* Sort criterion: Content: Title */
-  $handler->display->display_options['sorts']['title']['id'] = 'title';
-  $handler->display->display_options['sorts']['title']['table'] = 'node';
-  $handler->display->display_options['sorts']['title']['field'] = 'title';
-  $handler->display->display_options['sorts']['title']['order'] = 'DESC';
+  /* Field: Content: Year */
+  $handler->display->display_options['fields']['field_course_year']['id'] = 'field_course_year';
+  $handler->display->display_options['fields']['field_course_year']['table'] = 'field_data_field_course_year';
+  $handler->display->display_options['fields']['field_course_year']['field'] = 'field_course_year';
+  $handler->display->display_options['fields']['field_course_year']['settings'] = array(
+    'format_type' => 'year',
+    'fromto' => 'both',
+    'multiple_number' => '',
+    'multiple_from' => '',
+    'multiple_to' => '',
+  );
+  /* Field: Content: Semester */
+  $handler->display->display_options['fields']['field_course_semester']['id'] = 'field_course_semester';
+  $handler->display->display_options['fields']['field_course_semester']['table'] = 'field_data_field_course_semester';
+  $handler->display->display_options['fields']['field_course_semester']['field'] = 'field_course_semester';
+  /* Sort criterion: Content: Identifer (field_course_id) */
+  $handler->display->display_options['sorts']['field_course_id_value']['id'] = 'field_course_id_value';
+  $handler->display->display_options['sorts']['field_course_id_value']['table'] = 'field_data_field_course_id';
+  $handler->display->display_options['sorts']['field_course_id_value']['field'] = 'field_course_id_value';
   /* Contextual filter: Content: Year (field_course_year) */
   $handler->display->display_options['arguments']['field_course_year_value']['id'] = 'field_course_year_value';
   $handler->display->display_options['arguments']['field_course_year_value']['table'] = 'field_data_field_course_year';
@@ -190,6 +219,12 @@ function luggage_courses_views_default_views() {
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['path'] = 'courses';
+  $handler->display->display_options['menu']['type'] = 'normal';
+  $handler->display->display_options['menu']['title'] = 'Courses';
+  $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['menu']['name'] = 'main-menu';
+  $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['menu']['context_only_inline'] = 0;
   $export['courses'] = $view;
 
   return $export;
