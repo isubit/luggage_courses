@@ -104,3 +104,47 @@ function _luggage_courses_related_courses($field) {
 
   return $output;
 }
+
+/**
+ * Implements hook_node_insert().
+ *
+ * @param object $node
+ */
+function luggage_courses_node_insert($node) {
+  if ($node->type == 'course') {
+    _luggage_courses_set_title($node);
+  }
+}
+
+/**
+ * Implements hook_node_update().
+ *
+ * @param object $node
+ */
+function luggage_courses_node_update($node) {
+  if ($node->type == 'course') {
+    _luggage_courses_set_title($node);
+  }
+}
+
+/**
+ * Callback to update course section title.
+ *
+ * Needed when a section is added to a course not saved yet or when
+ * a course changes its title.
+ *
+ * @param object $node
+ */
+function _luggage_courses_set_title($node) {
+  $ewrapper = entity_metadata_wrapper('node', $node);
+  foreach ($ewrapper->field_course_section->getIterator() as $delta => $item_wrapper) {
+    $course_section_node = $item_wrapper->value();
+    if (auto_entitylabel_is_needed($course_section_node, 'node', TRUE)) {
+      auto_entitylabel_set_title($course_section_node, 'node');
+      // only save if the title has actually changed.
+      if (!empty($course_section_node->auto_entitylabel_changed)) {
+        entity_save('node', $course_section_node);
+      }
+    }
+  }
+}

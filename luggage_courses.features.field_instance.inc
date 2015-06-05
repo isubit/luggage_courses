@@ -519,7 +519,7 @@ function luggage_courses_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 1,
+        'weight' => 10,
       ),
     ),
     'entity_type' => 'node',
@@ -567,7 +567,7 @@ function luggage_courses_field_default_field_instances() {
           'image_style' => 'thumbnail',
         ),
         'type' => 'image',
-        'weight' => 0,
+        'weight' => 1,
       ),
     ),
     'entity_type' => 'node',
@@ -618,184 +618,60 @@ function luggage_courses_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-course_location-body'
-  $field_instances['node-course_location-body'] = array(
+  // Exported field_instance: 'node-course_location-field_course_location_url'
+  $field_instances['node-course_location-field_course_location_url'] = array(
     'bundle' => 'course_location',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'The URL of the course location, tipically a page that contains amenities and photos.',
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'text',
+        'module' => 'link',
         'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 1,
+        'type' => 'link_default',
+        'weight' => 0,
       ),
       'teaser' => array(
-        'label' => 'above',
+        'label' => 'hidden',
+        'module' => 'link',
         'settings' => array(),
-        'type' => 'hidden',
+        'type' => 'link_default',
         'weight' => 0,
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'body',
-    'label' => 'Amenities',
-    'placeholder' => '',
+    'field_name' => 'field_course_location_url',
+    'label' => 'URL',
     'required' => 0,
     'settings' => array(
-      'better_formats' => array(
-        'allowed_formats' => array(
-          'ds_code' => 'ds_code',
-          'filtered_html' => 'filtered_html',
-          'full_html' => 'full_html',
-          'plain_text' => 'plain_text',
-          'wysiwyg' => 'wysiwyg',
-        ),
-        'allowed_formats_toggle' => 0,
-        'default_order_toggle' => 0,
-        'default_order_wrapper' => array(
-          'formats' => array(
-            'ds_code' => array(
-              'weight' => 12,
-            ),
-            'filtered_html' => array(
-              'weight' => 0,
-            ),
-            'full_html' => array(
-              'weight' => 1,
-            ),
-            'plain_text' => array(
-              'weight' => 10,
-            ),
-            'wysiwyg' => array(
-              'weight' => 0,
-            ),
-          ),
-        ),
+      'absolute_url' => 1,
+      'attributes' => array(
+        'class' => '',
+        'configurable_class' => 0,
+        'configurable_title' => 0,
+        'rel' => '',
+        'target' => '_blank',
+        'title' => '',
       ),
-      'display_summary' => 0,
-      'text_processing' => 1,
+      'display' => array(
+        'url_cutoff' => 80,
+      ),
+      'enable_tokens' => 1,
+      'rel_remove' => 'default',
+      'title' => 'value',
+      'title_label_use_field_label' => 0,
+      'title_maxlength' => 128,
+      'title_value' => '[node:title]',
+      'url' => 0,
       'user_register_form' => FALSE,
+      'validate_url' => 1,
     ),
     'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'rows' => 20,
-        'summary_rows' => 5,
-      ),
-      'type' => 'text_textarea_with_summary',
-      'weight' => 43,
-    ),
-  );
-
-  // Exported field_instance:
-  // 'node-course_location-field_course_location_images'
-  $field_instances['node-course_location-field_course_location_images'] = array(
-    'bundle' => 'course_location',
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'image',
-        'settings' => array(
-          'image_link' => '',
-          'image_style' => '',
-        ),
-        'type' => 'image',
-        'weight' => 2,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_course_location_images',
-    'label' => 'Images',
-    'required' => 0,
-    'settings' => array(
-      'alt_field' => 0,
-      'default_image' => 0,
-      'file_directory' => 'courses/locations',
-      'file_extensions' => 'png gif jpg jpeg',
-      'max_filesize' => '',
-      'max_resolution' => '',
-      'min_resolution' => '',
-      'title_field' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'image',
-      'settings' => array(
-        'insert' => 0,
-        'insert_absolute' => 0,
-        'insert_class' => '',
-        'insert_default' => 'auto',
-        'insert_styles' => array(
-          'auto' => 'auto',
-          'icon_link' => 0,
-          'image' => 0,
-          'image_announcement_full' => 0,
-          'image_flexslider_full' => 0,
-          'image_flexslider_thumbnail' => 0,
-          'image_large' => 0,
-          'image_medium' => 0,
-          'image_people_full' => 0,
-          'image_people_thumb' => 0,
-          'image_sceenshot_medium_200' => 0,
-          'image_screenshot_thumbnail' => 0,
-          'image_thumbnail' => 0,
-          'link' => 0,
-        ),
-        'insert_width' => '',
-        'preview_image_style' => 'thumbnail',
-        'progress_indicator' => 'throbber',
-      ),
-      'type' => 'image_image',
-      'weight' => 44,
-    ),
-  );
-
-  // Exported field_instance: 'node-course_location-field_course_location_type'
-  $field_instances['node-course_location-field_course_location_type'] = array(
-    'bundle' => 'course_location',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_course_location_type',
-    'label' => 'Type',
-    'required' => 1,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
+      'active' => 0,
+      'module' => 'link',
       'settings' => array(),
-      'type' => 'options_select',
+      'type' => 'link_field',
       'weight' => 41,
     ),
   );
@@ -1133,13 +1009,11 @@ function luggage_courses_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Amenities');
   t('Body');
   t('Description');
   t('FAQ');
   t('Identifer');
   t('Image');
-  t('Images');
   t('Instructor');
   t('Location');
   t('Name');
@@ -1148,11 +1022,13 @@ function luggage_courses_field_default_field_instances() {
   t('Sections');
   t('Semester');
   t('Syllabus');
+  t('The URL of the course location, tipically a page that contains amenities and photos.');
   t('The identifier consists of a departmental abbreviation and an number. E.g., CHEM 163.');
   t('The section name, usualy an upper case letter such as A, B, etc.');
   t('This data should be copied and pasted from The Iowa State University catalog maintained by the Registrar\'s office: http://catalog.iastate.edu/azcourses/ch_e.');
   t('Time');
   t('Type');
+  t('URL');
   t('Year');
 
   return $field_instances;

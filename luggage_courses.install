@@ -15,11 +15,6 @@ function luggage_courses_install() {
   // First revert the feature to install the content type and fields.
   features_revert_module('luggage_courses');
 
-  // Create the directory where images will be stored.
-  $location_images_path = 'public://courses/locations/';
-  file_prepare_directory($location_images_path, FILE_CREATE_DIRECTORY);
-
-  // Fetch location data from the website.
   $locations = _luggage_courses_fetch_location_data();
   if ($locations == FALSE) {
     watchdog('luggage_courses', t('Could not create location nodes.', array(), WATCHDOG_WARNING));
@@ -40,29 +35,9 @@ function luggage_courses_install() {
 
     // Then, set values.
     $ewrapper->title->set($location->title);
-    $ewrapper->body->set(array(
-      'value' => trim($location->amenities),
-      'format' => 'plain_text',
-    ));
+    $ewrapper->field_course_location_url->url = $location->url;
 
-    // Fetch and attach images.
-    $image_files = array();
-    foreach ($location->images as $image_url) {
-      // Extract file name from the URL.
-      $matches = NULL;
-      preg_match('/\/([0-9].*$)/', $image_url, $matches);
-      $filename = $matches[1];
-
-      // Fetch the image.
-      $image = file_get_contents($image_url);
-      $image_file = file_save_data($image, $location_images_path . $filename, FILE_EXISTS_REPLACE);
-      $image_files[] = (array)$image_file;
-    }
-    // Add images to node.
-    if (count($image_files)) {
-      $ewrapper->field_course_location_images->set($image_files);
-    }
-
+    // Save the location.
     $ewrapper->save();
   }
 }
@@ -93,10 +68,11 @@ function _luggage_courses_fetch_location_data() {
   // Disable errors and warnings due to broken HTML.
   libxml_use_internal_errors(true);
 
+  $base_url = 'http://www.fpm.iastate.edu/roomscheduling/';
   $locations = array();
 
   // Load class list page.
-  $locations_list_html = file_get_contents('http://www.fpm.iastate.edu/roomscheduling/classrooms.asp?building=GILMAN+');
+  $locations_list_html = file_get_contents($base_url . 'classrooms.asp?building=GILMAN+');
   if ($locations_list_html === FALSE) {
     return FALSE;
   }
@@ -108,68 +84,17 @@ function _luggage_courses_fetch_location_data() {
   }
 
   // Extract all location URLs.
-  $location_urls = array();
   $elements = $dom->getElementsByTagName('a');
   if (!is_null($elements)) {
     foreach ($elements as $element) {
       $url = $element->getAttribute('href');
       if (strpos($url, 'room.asp') !== FALSE) {
-        $location_urls[] = $url;
+        $location = new stdClass;
+        $location->url = $base_url . $url;
+        $location->title = preg_replace('/[ ]+/', ' ', $element->nodeValue);
+        $locations[] = $location;
       }
     }
-  }
-
-  // Loop through each location and extract its data.
-  foreach ($location_urls as $location_url) {
-    $location = new stdClass;
-
-    // Extract location id from URL.
-    $matches = NULL;
-    preg_match('/[0-9]+$/', $location_url, $matches);
-    $location_id = $matches[0];
-
-    // Load location HTML;
-    $location_html = file_get_contents('http://www.fpm.iastate.edu/roomscheduling/' . $location_url);
-    if ($location_html === FALSE) {
-      watchdog('luggage_courses', t('location with URL @url could not be loaded.', array('@url' => $location_html)), WATCHDOG_WARNING);
-      continue;
-    }
-    $dom = new DomDocument;
-    if (!$dom->loadHTML($location_html)) {
-      watchdog('luggage_courses', t('location with URL @url could not be converted into a DOM element.', array('@url' => $location_html)), WATCHDOG_WARNING);
-      continue;
-    }
-
-    // Extract location name.
-    $location->title = $dom->getElementsByTagName('h2')->item(0)->nodeValue;
-
-    // Extract amenities in a dirty and hacky way :-S
-    foreach ($dom->getElementsByTagName('div') as $element) {
-      if (strpos($element->nodeValue, 'Maximum Capacity') !== FALSE) {
-        $location->amenities = $element->nodeValue;
-      }
-    }
-
-    // Extract images in a dirty and hacky way :-S
-    $location->images = array();
-    foreach ($dom->getElementsByTagName('img') as $element) {
-      if (strpos($element->getAttribute('src'), 'classrooms') !== FALSE) {
-        $location->images[] = 'http://www.fpm.iastate.edu/roomscheduling/' . $element->getAttribute('src');
-      }
-    }
-
-    // Some locations have seating images whose URLs are dynamic. Attempt to fetch them.
-    foreach ($dom->getElementsByTagName('input') as $element) {
-      if (strpos($element->getAttribute('onclick'), 'showSeating') !== FALSE) {
-        $matches = NULL;
-        if (preg_match('/\'([a-z]{1})\'/', $element->getAttribute('onclick'), $matches) === 1) {
-          $photo_letter = $matches[1];
-          $location->images[] = 'http://www.fpm.iastate.edu/roomscheduling/seating/' . $location_id .  $photo_letter . '.jpg';
-        }
-      }
-    }
-
-    $locations[] = $location;
   }
 
   return $locations;

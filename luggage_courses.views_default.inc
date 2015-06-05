@@ -60,8 +60,12 @@ function luggage_courses_views_default_views() {
   $handler->display->display_options['fields']['field_course_section_location']['id'] = 'field_course_section_location';
   $handler->display->display_options['fields']['field_course_section_location']['table'] = 'field_data_field_course_section_location';
   $handler->display->display_options['fields']['field_course_section_location']['field'] = 'field_course_section_location';
+  $handler->display->display_options['fields']['field_course_section_location']['label'] = '';
+  $handler->display->display_options['fields']['field_course_section_location']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_course_section_location']['type'] = 'entityreference_entity_view';
   $handler->display->display_options['fields']['field_course_section_location']['settings'] = array(
-    'link' => 1,
+    'view_mode' => 'teaser',
+    'links' => 1,
   );
   /* Field: Content: Syllabus */
   $handler->display->display_options['fields']['field_course_section_syllabus']['id'] = 'field_course_section_syllabus';

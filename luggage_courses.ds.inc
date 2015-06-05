@@ -100,6 +100,62 @@ function luggage_courses_ds_layout_settings_info() {
 
   $ds_layout = new stdClass();
   $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|course_instructor|teaser';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'course_instructor';
+  $ds_layout->view_mode = 'teaser';
+  $ds_layout->layout = 'ds_1col';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'title',
+        1 => 'field_course_instructor_image',
+      ),
+    ),
+    'fields' => array(
+      'title' => 'ds_content',
+      'field_course_instructor_image' => 'ds_content',
+    ),
+    'classes' => array(),
+    'wrappers' => array(
+      'ds_content' => 'div',
+    ),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => 1,
+    'layout_link_attribute' => '',
+    'layout_link_custom' => '',
+  );
+  $export['node|course_instructor|teaser'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
+  $ds_layout->id = 'node|course_location|teaser';
+  $ds_layout->entity_type = 'node';
+  $ds_layout->bundle = 'course_location';
+  $ds_layout->view_mode = 'teaser';
+  $ds_layout->layout = 'ds_1col';
+  $ds_layout->settings = array(
+    'regions' => array(
+      'ds_content' => array(
+        0 => 'field_course_location_url',
+      ),
+    ),
+    'fields' => array(
+      'field_course_location_url' => 'ds_content',
+    ),
+    'classes' => array(),
+    'wrappers' => array(),
+    'layout_wrapper' => 'div',
+    'layout_attributes' => '',
+    'layout_attributes_merge' => TRUE,
+    'layout_link_attribute' => FALSE,
+    'layout_link_custom' => '',
+  );
+  $export['node|course_location|teaser'] = $ds_layout;
+
+  $ds_layout = new stdClass();
+  $ds_layout->api_version = 1;
   $ds_layout->id = 'node|course|course';
   $ds_layout->entity_type = 'node';
   $ds_layout->bundle = 'course';
