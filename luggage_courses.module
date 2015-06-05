@@ -7,9 +7,144 @@
 include_once 'luggage_courses.features.inc';
 
 /**
+ * Token key used for courses.
+ */
+define('LUGGAGE_COURSES_TOKEN_TYPE', 'luggage_courses');
+
+/**
  * Implements hook_update_projects_alter().
  */
 function luggage_courses_update_projects_alter(&$projects) {
   // Hide a site-specific module from the list.
   unset($projects['luggage_courses']);
+}
+
+/**
+ * Implements hook_token_info()
+ */
+function luggage_courses_token_info() {
+  return array(
+    'types' => array(
+      LUGGAGE_COURSES_TOKEN_TYPE => array(
+        'name' => t('Course tokens'),
+        'description' => t('Tokens for course content.'),
+      ),
+    ),
+    'tokens' => array(
+      LUGGAGE_COURSES_TOKEN_TYPE => array(
+        'section_course_title' => array(
+          'name' => t('Section\'s course title'),
+          'description' => t('Renders the title of the course that a section is attached to'),
+        ),
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_tokens().
+ */
+function luggage_courses_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  $replacements = array();
+  if ($type == LUGGAGE_COURSES_TOKEN_TYPE) {
+    foreach ($tokens as $name => $original) {
+      switch ($name) {
+        case 'section_course_title':
+          $node = $data['node'];
+          $query = new EntityFieldQuery();
+          $query->entityCondition('entity_type', 'node')
+            ->entityCondition('bundle', 'course')
+            ->fieldCondition('field_course_section', 'target_id', $node->nid);
+          $result = $query->execute();
+          if (!empty($result)) {
+            $nid = key($result['node']);
+            $node = node_load($nid);
+            $replacements[$original] = check_plain($node->title);
+          }
+          break;
+      }
+    }
+  }
+
+  return $replacements;
+}
+
+/**
+ * Implements hook_ds_fields_info().
+ */
+function luggage_courses_ds_fields_info($entity_type) {
+  $fields = array();
+
+  if ($entity_type == 'node') {
+    $fields['related_courses'] = array(
+      'title' => t('Related courses'),
+      'field_type' => DS_FIELD_TYPE_FUNCTION,
+      'function' => '_luggage_courses_related_courses',
+    );
+    return array($entity_type => $fields);
+  }
+  return;
+}
+
+/**
+ * Callback to render related courses.
+ */
+function _luggage_courses_related_courses($field) {
+  $node = menu_get_object('node');
+  $node_wrapper = entity_metadata_wrapper('node', $node);
+  if (empty($node_wrapper->field_course_related->raw())) {
+    return;
+  }
+
+  $output = '<h2>Related courses</h2>';
+  foreach ($node_wrapper->field_course_related->getIterator() as $delta => $related_course_wrapper) {
+    $output .= '<h3><a href="/node/' . $related_course_wrapper->getIdentifier() . '">' . $related_course_wrapper->title->value(array('sanitize' => TRUE)) . '</a></h3>';
+    $output .= views_embed_view('course_sections', 'block', $related_course_wrapper->getIdentifier());
+  }
+
+  return $output;
+}
+
+/**
+ * Implements hook_node_insert().
+ *
+ * @param object $node
+ */
+function luggage_courses_node_insert($node) {
+  if ($node->type == 'course') {
+    _luggage_courses_set_title($node);
+  }
+}
+
+/**
+ * Implements hook_node_update().
+ *
+ * @param object $node
+ */
+function luggage_courses_node_update($node) {
+  if ($node->type == 'course') {
+    _luggage_courses_set_title($node);
+  }
+}
+
+/**
+ * Callback to update course section title.
+ *
+ * Needed when a section is added to a course not saved yet or when
+ * a course changes its title.
+ *
+ * @param object $node
+ */
+function _luggage_courses_set_title($node) {
+  $ewrapper = entity_metadata_wrapper('node', $node);
+  foreach ($ewrapper->field_course_section->getIterator() as $delta => $item_wrapper) {
+    $course_section_node = $item_wrapper->value();
+    if (auto_entitylabel_is_needed($course_section_node, 'node', TRUE)) {
+      auto_entitylabel_set_title($course_section_node, 'node');
+      // only save if the title has actually changed.
+      if (!empty($course_section_node->auto_entitylabel_changed)) {
+        entity_save('node', $course_section_node);
+      }
+    }
+  }
 }
