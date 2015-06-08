@@ -90,7 +90,7 @@ function luggage_courses_ds_fields_info($entity_type) {
  * Callback to render related courses.
  */
 function _luggage_courses_related_courses($field) {
-  $node = menu_get_object('node');
+  $node = $field['entity'];
   $node_wrapper = entity_metadata_wrapper('node', $node);
   if (empty($node_wrapper->field_course_related->raw())) {
     return;
