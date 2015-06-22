@@ -623,7 +623,7 @@ function luggage_courses_field_default_field_instances() {
     'bundle' => 'course_location',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'The URL of the course location, tipically a page that contains amenities and photos.',
+    'description' => 'The URL of the course location, typically a page that contains amenities and photos.',
     'display' => array(
       'default' => array(
         'label' => 'above',
@@ -1022,7 +1022,7 @@ function luggage_courses_field_default_field_instances() {
   t('Sections');
   t('Semester');
   t('Syllabus');
-  t('The URL of the course location, tipically a page that contains amenities and photos.');
+  t('The URL of the course location, typically a page that contains amenities and photos.');
   t('The identifier consists of a departmental abbreviation and an number. E.g., CHEM 163.');
   t('The section name, usualy an upper case letter such as A, B, etc.');
   t('This data should be copied and pasted from The Iowa State University catalog maintained by the Registrar\'s office: http://catalog.iastate.edu/azcourses/ch_e.');
