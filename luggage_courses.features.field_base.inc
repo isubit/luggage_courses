@@ -371,6 +371,7 @@ function luggage_courses_field_default_field_bases() {
     'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
+        'spring' => 'Spring',
         'summer' => 'Summer',
         'fall' => 'Fall',
       ),
