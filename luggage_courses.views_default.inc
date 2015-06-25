@@ -60,7 +60,7 @@ function luggage_courses_views_default_views() {
   $handler->display->display_options['fields']['field_course_section_location']['id'] = 'field_course_section_location';
   $handler->display->display_options['fields']['field_course_section_location']['table'] = 'field_data_field_course_section_location';
   $handler->display->display_options['fields']['field_course_section_location']['field'] = 'field_course_section_location';
-  $handler->display->display_options['fields']['field_course_section_location']['label'] = 'location';
+  $handler->display->display_options['fields']['field_course_section_location']['label'] = 'Location';
   $handler->display->display_options['fields']['field_course_section_location']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_course_section_location']['type'] = 'entityreference_entity_view';
   $handler->display->display_options['fields']['field_course_section_location']['settings'] = array(
@@ -76,7 +76,7 @@ function luggage_courses_views_default_views() {
   $handler->display->display_options['fields']['field_course_section_instructor']['id'] = 'field_course_section_instructor';
   $handler->display->display_options['fields']['field_course_section_instructor']['table'] = 'field_data_field_course_section_instructor';
   $handler->display->display_options['fields']['field_course_section_instructor']['field'] = 'field_course_section_instructor';
-  $handler->display->display_options['fields']['field_course_section_instructor']['label'] = 'instructor';
+  $handler->display->display_options['fields']['field_course_section_instructor']['label'] = 'Instructor';
   $handler->display->display_options['fields']['field_course_section_instructor']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_course_section_instructor']['type'] = 'entityreference_entity_view';
   $handler->display->display_options['fields']['field_course_section_instructor']['settings'] = array(
