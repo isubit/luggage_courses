@@ -349,7 +349,7 @@ function luggage_courses_field_default_field_bases() {
     'settings' => array(
       'totime' => 'required',
       'weekly_summary' => 1,
-      'weekly_summary_with_label' => 1,
+      'weekly_summary_with_label' => 0,
     ),
     'translatable' => 0,
     'type' => 'timefield',
