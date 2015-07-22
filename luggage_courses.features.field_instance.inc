@@ -167,7 +167,7 @@ function luggage_courses_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_course_id',
-    'label' => 'Identifer',
+    'label' => 'Identifier',
     'placeholder' => '',
     'required' => 1,
     'settings' => array(
@@ -1017,7 +1017,7 @@ function luggage_courses_field_default_field_instances() {
   t('Body');
   t('Description');
   t('FAQ');
-  t('Identifer');
+  t('Identifier');
   t('Image');
   t('Instructor');
   t('Location');

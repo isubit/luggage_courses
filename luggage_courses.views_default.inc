@@ -137,7 +137,7 @@ function luggage_courses_views_default_views() {
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Field: Content: Identifer */
+  /* Field: Content: Identifier */
   $handler->display->display_options['fields']['field_course_id']['id'] = 'field_course_id';
   $handler->display->display_options['fields']['field_course_id']['table'] = 'field_data_field_course_id';
   $handler->display->display_options['fields']['field_course_id']['field'] = 'field_course_id';
@@ -149,7 +149,7 @@ function luggage_courses_views_default_views() {
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-  /* Sort criterion: Content: Identifer (field_course_id) */
+  /* Sort criterion: Content: Identifier (field_course_id) */
   $handler->display->display_options['sorts']['field_course_id_value']['id'] = 'field_course_id_value';
   $handler->display->display_options['sorts']['field_course_id_value']['table'] = 'field_data_field_course_id';
   $handler->display->display_options['sorts']['field_course_id_value']['field'] = 'field_course_id_value';
@@ -217,7 +217,7 @@ function luggage_courses_views_default_views() {
       'empty_column' => 0,
     ),
   );
-  /* Field: Content: Identifer */
+  /* Field: Content: Identifier */
   $handler->display->display_options['fields']['field_course_id']['id'] = 'field_course_id';
   $handler->display->display_options['fields']['field_course_id']['table'] = 'field_data_field_course_id';
   $handler->display->display_options['fields']['field_course_id']['field'] = 'field_course_id';
@@ -242,7 +242,7 @@ function luggage_courses_views_default_views() {
   $handler->display->display_options['fields']['field_course_semester']['id'] = 'field_course_semester';
   $handler->display->display_options['fields']['field_course_semester']['table'] = 'field_data_field_course_semester';
   $handler->display->display_options['fields']['field_course_semester']['field'] = 'field_course_semester';
-  /* Sort criterion: Content: Identifer (field_course_id) */
+  /* Sort criterion: Content: Identifier (field_course_id) */
   $handler->display->display_options['sorts']['field_course_id_value']['id'] = 'field_course_id_value';
   $handler->display->display_options['sorts']['field_course_id_value']['table'] = 'field_data_field_course_id';
   $handler->display->display_options['sorts']['field_course_id_value']['field'] = 'field_course_id_value';
