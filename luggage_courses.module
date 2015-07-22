@@ -80,30 +80,18 @@ function luggage_courses_ds_fields_info($entity_type) {
       'title' => t('Related courses'),
       'field_type' => DS_FIELD_TYPE_FUNCTION,
       'function' => '_luggage_courses_related_courses',
+      'file' => drupal_get_path('module', 'luggage_courses') . '/luggage_courses.ds.field.inc',
+    );
+    $fields['section_title'] = array(
+      'title' => t('Section title'),
+      'description' => t('Renders section title and wraps it in a link if URL field is set.'),
+      'field_type' => DS_FIELD_TYPE_FUNCTION,
+      'function' => '_luggage_courses_section_title',
+      'file' => drupal_get_path('module', 'luggage_courses') . '/luggage_courses.ds.field.inc',
     );
     return array($entity_type => $fields);
   }
   return;
-}
-
-/**
- * Callback to render related courses.
- */
-function _luggage_courses_related_courses($field) {
-  $node = $field['entity'];
-  $node_wrapper = entity_metadata_wrapper('node', $node);
-  $courses = $node_wrapper->field_course_related->raw();
-  if (empty($courses)) {
-    return;
-  }
-
-  $output = '<h2>Related courses</h2>';
-  foreach ($node_wrapper->field_course_related->getIterator() as $delta => $related_course_wrapper) {
-    $output .= '<h3><a href="/node/' . $related_course_wrapper->getIdentifier() . '">' . $related_course_wrapper->title->value(array('sanitize' => TRUE)) . '</a></h3>';
-    $output .= views_embed_view('course_sections', 'block', $related_course_wrapper->getIdentifier());
-  }
-
-  return $output;
 }
 
 /**
