@@ -289,6 +289,172 @@ function luggage_courses_views_default_views() {
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'table';
+  $handler->display->display_options['style_options']['columns'] = array(
+    'field_course_id' => 'field_course_id',
+    'title' => 'title',
+    'field_course_year' => 'field_course_year',
+    'field_course_semester' => 'field_course_semester',
+  );
+  $handler->display->display_options['style_options']['default'] = '-1';
+  $handler->display->display_options['style_options']['info'] = array(
+    'field_course_id' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'title' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_course_year' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_course_semester' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+  );
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['empty'] = FALSE;
+  /* No results behavior: Global: Text area */
+  $handler->display->display_options['empty']['area']['id'] = 'area';
+  $handler->display->display_options['empty']['area']['table'] = 'views';
+  $handler->display->display_options['empty']['area']['field'] = 'area';
+  $handler->display->display_options['empty']['area']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area']['content'] = 'No courses found';
+  $handler->display->display_options['empty']['area']['format'] = 'wysiwyg';
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'course' => 'course',
+  );
+  /* Filter criterion: Content: Identifier (field_course_id) */
+  $handler->display->display_options['filters']['field_course_id_value']['id'] = 'field_course_id_value';
+  $handler->display->display_options['filters']['field_course_id_value']['table'] = 'field_data_field_course_id';
+  $handler->display->display_options['filters']['field_course_id_value']['field'] = 'field_course_id_value';
+  $handler->display->display_options['filters']['field_course_id_value']['operator'] = 'allwords';
+  $handler->display->display_options['filters']['field_course_id_value']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['field_course_id_value']['expose']['operator_id'] = 'field_course_id_value_op';
+  $handler->display->display_options['filters']['field_course_id_value']['expose']['label'] = 'Identifier';
+  $handler->display->display_options['filters']['field_course_id_value']['expose']['operator'] = 'field_course_id_value_op';
+  $handler->display->display_options['filters']['field_course_id_value']['expose']['identifier'] = 'field_course_id_value';
+  $handler->display->display_options['filters']['field_course_id_value']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    4 => 0,
+    5 => 0,
+    3 => 0,
+    7 => 0,
+    6 => 0,
+    10 => 0,
+    9 => 0,
+    11 => 0,
+    13 => 0,
+    8 => 0,
+    12 => 0,
+  );
+  /* Filter criterion: Content: Title */
+  $handler->display->display_options['filters']['title']['id'] = 'title';
+  $handler->display->display_options['filters']['title']['table'] = 'node';
+  $handler->display->display_options['filters']['title']['field'] = 'title';
+  $handler->display->display_options['filters']['title']['operator'] = 'allwords';
+  $handler->display->display_options['filters']['title']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['title']['expose']['operator_id'] = 'title_op';
+  $handler->display->display_options['filters']['title']['expose']['label'] = 'Title';
+  $handler->display->display_options['filters']['title']['expose']['operator'] = 'title_op';
+  $handler->display->display_options['filters']['title']['expose']['identifier'] = 'title';
+  $handler->display->display_options['filters']['title']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    4 => 0,
+    5 => 0,
+    3 => 0,
+    7 => 0,
+    6 => 0,
+    10 => 0,
+    9 => 0,
+    11 => 0,
+    13 => 0,
+    8 => 0,
+    12 => 0,
+  );
+  /* Filter criterion: Content: Year (field_course_year) */
+  $handler->display->display_options['filters']['field_course_year_value']['id'] = 'field_course_year_value';
+  $handler->display->display_options['filters']['field_course_year_value']['table'] = 'field_data_field_course_year';
+  $handler->display->display_options['filters']['field_course_year_value']['field'] = 'field_course_year_value';
+  $handler->display->display_options['filters']['field_course_year_value']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['field_course_year_value']['expose']['operator_id'] = 'field_course_year_value_op';
+  $handler->display->display_options['filters']['field_course_year_value']['expose']['label'] = 'Year';
+  $handler->display->display_options['filters']['field_course_year_value']['expose']['operator'] = 'field_course_year_value_op';
+  $handler->display->display_options['filters']['field_course_year_value']['expose']['identifier'] = 'field_course_year_value';
+  $handler->display->display_options['filters']['field_course_year_value']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    4 => 0,
+    5 => 0,
+    3 => 0,
+    7 => 0,
+    6 => 0,
+    10 => 0,
+    9 => 0,
+    11 => 0,
+    13 => 0,
+    8 => 0,
+    12 => 0,
+  );
+  $handler->display->display_options['filters']['field_course_year_value']['granularity'] = 'year';
+  $handler->display->display_options['filters']['field_course_year_value']['year_range'] = '-1:+1';
+  /* Filter criterion: Content: Semester (field_course_semester) */
+  $handler->display->display_options['filters']['field_course_semester_value']['id'] = 'field_course_semester_value';
+  $handler->display->display_options['filters']['field_course_semester_value']['table'] = 'field_data_field_course_semester';
+  $handler->display->display_options['filters']['field_course_semester_value']['field'] = 'field_course_semester_value';
+  $handler->display->display_options['filters']['field_course_semester_value']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['field_course_semester_value']['expose']['operator_id'] = 'field_course_semester_value_op';
+  $handler->display->display_options['filters']['field_course_semester_value']['expose']['label'] = 'Semester';
+  $handler->display->display_options['filters']['field_course_semester_value']['expose']['operator'] = 'field_course_semester_value_op';
+  $handler->display->display_options['filters']['field_course_semester_value']['expose']['identifier'] = 'field_course_semester_value';
+  $handler->display->display_options['filters']['field_course_semester_value']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    4 => 0,
+    5 => 0,
+    3 => 0,
+    7 => 0,
+    6 => 0,
+    10 => 0,
+    9 => 0,
+    11 => 0,
+    13 => 0,
+    8 => 0,
+    12 => 0,
+  );
   $handler->display->display_options['path'] = 'courses';
   $handler->display->display_options['menu']['type'] = 'normal';
   $handler->display->display_options['menu']['title'] = 'Courses';
