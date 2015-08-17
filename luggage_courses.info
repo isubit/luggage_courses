@@ -4,6 +4,7 @@ core = 7.x
 package = Luggage
 version = 7.x-1.0
 project = luggage_courses
+dependencies[] = better_exposed_filters
 dependencies[] = cer
 dependencies[] = ctools
 dependencies[] = date
