@@ -112,6 +112,54 @@ function luggage_courses_views_default_views() {
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
+  /* Field: Content: Time */
+  $handler->display->display_options['fields']['field_course_section_time']['id'] = 'field_course_section_time';
+  $handler->display->display_options['fields']['field_course_section_time']['table'] = 'field_data_field_course_section_time';
+  $handler->display->display_options['fields']['field_course_section_time']['field'] = 'field_course_section_time';
+  $handler->display->display_options['fields']['field_course_section_time']['settings'] = array(
+    'display_format' => array(
+      'hour' => 'g',
+      'minute' => 'i',
+      'separator' => ':',
+      'period' => 'a',
+      'period_separator' => '',
+    ),
+  );
+  /* Field: Content: Location */
+  $handler->display->display_options['fields']['field_course_section_location']['id'] = 'field_course_section_location';
+  $handler->display->display_options['fields']['field_course_section_location']['table'] = 'field_data_field_course_section_location';
+  $handler->display->display_options['fields']['field_course_section_location']['field'] = 'field_course_section_location';
+  $handler->display->display_options['fields']['field_course_section_location']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_course_section_location']['type'] = 'entityreference_entity_view';
+  $handler->display->display_options['fields']['field_course_section_location']['settings'] = array(
+    'view_mode' => 'teaser',
+    'links' => 1,
+  );
+  /* Field: Content: Syllabus */
+  $handler->display->display_options['fields']['field_course_section_syllabus']['id'] = 'field_course_section_syllabus';
+  $handler->display->display_options['fields']['field_course_section_syllabus']['table'] = 'field_data_field_course_section_syllabus';
+  $handler->display->display_options['fields']['field_course_section_syllabus']['field'] = 'field_course_section_syllabus';
+  $handler->display->display_options['fields']['field_course_section_syllabus']['click_sort_column'] = 'fid';
+  /* Field: Content: Instructor */
+  $handler->display->display_options['fields']['field_course_section_instructor']['id'] = 'field_course_section_instructor';
+  $handler->display->display_options['fields']['field_course_section_instructor']['table'] = 'field_data_field_course_section_instructor';
+  $handler->display->display_options['fields']['field_course_section_instructor']['field'] = 'field_course_section_instructor';
+  $handler->display->display_options['fields']['field_course_section_instructor']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_course_section_instructor']['type'] = 'entityreference_entity_view';
+  $handler->display->display_options['fields']['field_course_section_instructor']['settings'] = array(
+    'view_mode' => 'teaser',
+    'links' => 0,
+  );
+  $handler->display->display_options['fields']['field_course_section_instructor']['delta_offset'] = '0';
+  $handler->display->display_options['fields']['field_course_section_instructor']['separator'] = '';
   $export['course_sections'] = $view;
 
   $view = new view();
