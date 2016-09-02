@@ -9,6 +9,7 @@ dependencies[] = cer
 dependencies[] = ctools
 dependencies[] = date
 dependencies[] = ds
+dependencies[] = entityconnect
 dependencies[] = entityreference
 dependencies[] = features
 dependencies[] = file
