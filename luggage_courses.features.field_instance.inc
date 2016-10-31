@@ -577,7 +577,8 @@ function luggage_courses_field_default_field_instances() {
     'label' => 'Image',
     'required' => 0,
     'settings' => array(
-      'alt_field' => 0,
+      'alt_field' => 1,
+      'alt_field_required' => 1,
       'default_image' => 0,
       'file_directory' => 'instructors',
       'file_extensions' => 'png gif jpg jpeg',
@@ -585,6 +586,7 @@ function luggage_courses_field_default_field_instances() {
       'max_resolution' => '',
       'min_resolution' => '',
       'title_field' => 0,
+      'title_field_required' => 0,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
